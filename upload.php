@@ -4,12 +4,11 @@
 if(isset($_POST['submit'])){
 	echo "<pre>";
 	print_r($_FILES['file_upload']);
-	echo "</pre>";	
-
-}
+	echo "<pre>";
 
 //errors for uploads 
 $upload_errors = array(
+
 	UPLOAD_ERR_OK				=> "There is no error",
 	UPLOAD_ERR_INI_SIZE		=> "The uploaded file exceeds the upload_max_filesize directive",
 	UPLOAD_ERR_FORM_SIZE		=> "The uploaded file exceeds the MAX_FILE_SIZE directive",
@@ -21,9 +20,11 @@ $upload_errors = array(
 
 	);
 
+$the_error = $_FILES['file_upload']['error'];
 
+$the_message = $upload_errors[$the_error];
 
-
+}
 
 ?>
 <!DOCTYPE html>
@@ -36,7 +37,15 @@ $upload_errors = array(
 
 <!-- send other files in input text like images -->
 <form action="upload.php" method="POST" enctype="multipart/form-data">
-	
+	<h2>
+		<?php
+		// check if error array is empty
+		if(!empty($upload_errors)){
+			echo $the_message;
+		}
+		?>
+	</h2>
+
 	<input type="file" name="file_upload"><br>
 
 	<input type="submit" name="submit">
